@@ -1,58 +1,84 @@
 # Glioma Grading Using Machine Learning
 
-This project aims to develop a machine learning classifier model to detect Lower-Grade Glioma (LGG) or Glioblastoma Multiforme (GBM) based on clinical and molecular/mutation features obtained from DNA tests.
+> **Project**
+> <br />
+> Course Unit: [Artificial Intelligence](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=520334), 3rd year
+> <br />
+> Course: BSc in Informatics and Computing Engineering
+> <br />
+> Faculty: **FEUP** (Faculty of Engineering of the University of Porto)
+> <br />
+> Project evaluation: **20**/20
 
-## Problem Statement
+---
 
-Gliomas are the most common primary brain tumors. They can be graded as LGG or GBM depending on histological/imaging criteria, clinical factors, and molecular/mutation factors. Our goal is to determine whether a patient has LGG or GBM using given clinical and molecular/mutation features, potentially reducing the need for expensive molecular tests.
+## Project Goals
 
-## Dataset
-
-The dataset combines two genome atlas databases:
-- The Cancer Genome Atlas (TCGA)
-- The Chinese Glioma Genome Atlas (CGGA)
-
-### Features:
-- Clinical features: Gender, Age at diagnosis, Race
-- Molecular features: IDH1, TP53, ATRX, PTEN, EGFR, CIC, MUC16, PIK3CA, NF1, PIK3R1, FUBP1, RB1, NOTCH1, BCOR, CSMD3, SMARCA4, GRIN2A, IDH2, FAT4, PDGFRA
-- Class feature: Grade (LGG or GBM)
+The objective of this assignment was to develop a machine learning classifier to detect Lower-Grade Glioma (LGG) or Glioblastoma Multiforme (GBM). By leveraging clinical features (age, gender, race) and molecular mutation data.
 
 ## Methodology
 
-1. Data Preprocessing
-2. Feature Selection
-   - LASSO L1-based feature selection
-   - Tree-based feature selection
-   - Recursive feature elimination
-3. Model Implementation
-   - Logistic Regression (LR)
-   - Support Vector Machine (SVM)
-   - K Nearest Neighbors (KNN)
-   - Random Forest (RF)
-   - AdaBoost
-   - Neural Network (NN)
-4. Ensemble Modeling
-   - Voting Classifier
+### 1. Data Preprocessing & Exploratory Analysis
+We performed an initial analysis of the dataset to check for class distribution and attribute correlation. We addressed missing values and prepared the data for supervised learning by splitting it into training and test sets.
 
-## Results
+### 2. Feature Selection
+To improve the accuracy of our estimators, we explored three distinct dimensionality reduction and feature selection techniques:
+* **LASSO (L1-based):** To estimate sparse coefficients and select features with non-zero impact.
+* **Tree-based selection:** Using `RandomForestClassifier` to calculate feature importances.
+* **Recursive Feature Elimination (RFE):** Iteratively removing the least significant features to identify the optimal subset.
 
-The best-performing individual models were Neural Network and Random Forest. The best ensemble model, combining SVM, KNN, and NN, achieved an accuracy of 0.88 on the test data.
+### 3. Model Implementation
+We implemented a variety of supervised learning algorithms using the **Scikit-Learn** library:
+* **Logistic Regression (LR)**
+* **Support Vector Machine (SVM)**
+* **K-Nearest Neighbors (KNN)**
+* **Random Forest (RF)**
+* **AdaBoost**
+* **Neural Network (NN)**
 
-## Conclusion
+### 4. Ensemble Modeling
+Following the "No Free Lunch" theorem, we implemented a **Voting Classifier** (soft-voting) to combine the strengths of individual models. Our best-performing ensemble, which combined **SVM, KNN, and NN**, achieved an accuracy of **0.88** on the test data.
 
-This study highlights optimal feature subsets and ensemble strategies for glioma grading, potentially improving clinical decision-making and personalized treatments for glioma patients.
+## Results Summary
 
-## Tools Used
+| Model | Accuracy | Precision | Recall |
+| :--- | :--- | :--- | :--- |
+| **LR** | 0.869 | 0.875 | 0.869 |
+| **SVM** | 0.857 | 0.868 | 0.857 |
+| **KNN** | 0.827 | 0.829 | 0.827 |
+| **RF** | 0.869 | 0.873 | 0.869 |
+| **AdaBoost** | 0.857 | 0.868 | 0.857 |
+| **NN** | 0.839 | 0.841 | 0.839 |
+| **Ensemble** | **0.880** | **0.880** | **0.880** |
 
-- Python
-- Scikit-Learn
-- Pandas
-- Matplotlib
+## Running the code
 
-## Contributors
+**Environment Setup:**
+Ensure you have the necessary libraries installed:
+```bash
+pip install pandas scikit-learn matplotlib seaborn
+```
+
+**Running individual models:**
+Navigate to the `src/models/` directory and execute the desired script:
+```bash
+python -m src.models.random_forest
+python -m src.models.knn
+# ... etc
+```
+
+**Feature Selection Analysis:**
+To view the results of the different feature selection methods:
+```bash
+python -m src.feature_selection
+```
+
+## Tech Stack
+
+Python, Scikit-Learn, Pandas, Matplotlib, Seaborn
+
+## Team
 
 - Adriano Machado – 202105352
 - Diogo Fernandes – 202108752
-- João Torre Pereira - 202108848
-
-Check the [notebook](glioma_segmentation.ipynb) for the code and the results.
+- João Torre Pereira – 202108848
